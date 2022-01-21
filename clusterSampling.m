@@ -75,23 +75,21 @@ function clustSampling = clusterSampling(dataFileName, numberOfGroups, zScoreDim
         end
         		
 		
-		if zScoreDimensionType == "FirstDimension"
+	if zScoreDimensionType == "FirstDimension"
 			
-			zScoresSampled = zscore(numSampled,0,1);  %z score of randomly sampled data in first dimension
+			zScoresSampled = zscore(numSampled,0,1);  %z score of randomly sampled data in first dimension			
+			zScoresSampledPages(:,:,cnt) = zScoresSampled(:,:);	
 			
+        elseif zScoreDimensionType == "SecondDimension"			
+			zScoresSampled = zscore(numSampled,0,2);  %z score of randomly sampled data in second dimension			
 			zScoresSampledPages(:,:,cnt) = zScoresSampled(:,:);
 			
-        elseif zScoreDimensionType == "SecondDimension"
-			
-			zScoresSampled = zscore(numSampled,0,2);  %z score of randomly sampled data in second dimension
-			
+        elseif zScoreDimensionType == ""
+            		zScoresSampled = numSampled;  %input is already z scored  			
 			zScoresSampledPages(:,:,cnt) = zScoresSampled(:,:);
-        else
-            zScoresSampled = numSampled;  %input is already z scored  
-			
-			zScoresSampledPages(:,:,cnt) = zScoresSampled(:,:);
-		end
-			       
+	else
+		error('Invalid Z-Score Dimension Type: ' + zScoreDimensionType);
+	end			       
     end
       
     for N = 1:numberOfGroups
